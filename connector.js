@@ -110,7 +110,7 @@ class ServiceNowConnector {
     } else if (!validResponseRegex.test(response.statusCode)) {
       console.error('Bad response code.');
       callbackError = response;
-    } else if (isHibernating(response)) {
+    } else if (this.isHibernating(response)) {
       callbackError = 'Service Now instance is hibernating';
       console.error(callbackError);
     } else {
@@ -140,9 +140,9 @@ class ServiceNowConnector {
   // Initialize return arguments for callback
   let uri;
   if (callOptions.query)
-    uri = constructUri(callOptions.serviceNowTable, callOptions.query);
+    uri = this.constructUri(callOptions.serviceNowTable, callOptions.query);
   else
-    uri = constructUri(callOptions.serviceNowTable);
+    uri = this.constructUri(callOptions.serviceNowTable);
   /**
    * You must build the requestOptions object.
    * This is not a simple copy/paste of the requestOptions object
@@ -151,14 +151,14 @@ class ServiceNowConnector {
    */
   const requestOptions = {method: callOptions.method,
     auth: {
-      user: options.username,
-      pass: options.password,
+      user: this.options.username,
+      pass: this.options.password,
     },
-    baseUrl: options.url,
+    baseUrl: this.options.url,
     uri: uri,
   };
   request(requestOptions, (error, response, body) => {
-    processRequestResults(error, response, body, (processedResults, processedError) => callback(processedResults, processedError));
+  this.processRequestResults(error, response, body, (processedResults, processedError) => callback(processedResults, processedError));
   });
 }
 
@@ -189,15 +189,16 @@ class ServiceNowConnector {
  *   then calls sendRequest().
  *
  * @param {object} callOptions - Passed call options.
- * @param {string} callOptions.serviceNowTable - The table target of the ServiceNow table API.
+ * @param {string} callOptions.serviceNowTable -    The table target of the ServiceNow table API.
  * @param {iapCallback} callback - Callback a function.
  * @param {(object|string)} callback.data - The API's response. Will be an object if sunnyday path.
  *   Will be HTML text if hibernating instance.
  * @param {error} callback.error - The error property of callback.
  */
-post(callOptions, callback) {
-  callOptions.method = 'POST';
-  sendRequest(callOptions, (results, error) => callback(results, error));
+post(callback) {
+  let postCallOptions = { ...this.options };  
+  postCallOptions.method = 'POST';
+  this.sendRequest(postCallOptions, (results, error) => callback(results, error));
 }
 }
 
