@@ -15,16 +15,16 @@
       "properties": {
         "username": {
           "type": "string",
-          "default": "admine",
+          "default": "devUsername",
           "examples": [
-            "admine"
+            "devUsername"
           ]
         },
         "password": {
           "type": "string",
-          "default": "Abcdef@2020",
+          "default": "devUserPassword",
           "examples": [
-            "Abcdef@2020"
+            "devUserPassword"
           ]
         }
       },
