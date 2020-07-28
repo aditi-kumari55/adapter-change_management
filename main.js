@@ -83,7 +83,7 @@ class ServiceNowAdapter extends EventEmitter {
     this.healthcheck();
   }
 
- /**
+/**
  * @memberof ServiceNowAdapter
  * @method healthcheck
  * @summary Check ServiceNow Health
@@ -129,14 +129,13 @@ healthcheck(callback) {
       * parameter as an argument for the callback function's
       * responseData parameter.
       */
-       this.emitOnline();
+      this.emitOnline();
       if(callback){
         callback(result,error);
       }
    }
  });
 }
-
   /**
    * @memberof ServiceNowAdapter
    * @method emitOffline
@@ -190,7 +189,7 @@ healthcheck(callback) {
      * Note how the object was instantiated in the constructor().
      * get() takes a callback function.
      */
-    this.connector.get((data, error) => {
+     this.connector.get((data, error) => {
         let changeTickets = [];
         if(error){
             callback(data,error);
@@ -238,11 +237,11 @@ healthcheck(callback) {
 
          if(error){
             callback(data,error);
-         }
-         else {
+        }
+        else {
             if(data.body){
                 let bodyObj = JSON.parse(data.body);
-                let ticket = bodyObj.result
+                ticket = bodyObj.result
                     let changeTicket = {
                         change_ticket_number: ticket.number,
                         active: ticket.active,
@@ -252,8 +251,8 @@ healthcheck(callback) {
                         work_end: ticket.work_end,
                         change_ticket_key: ticket.sys_id,
                     };
-                callback(changeTicket,error);
             }
+            callback(changeTicket,error);
         }
 
      });
