@@ -191,6 +191,7 @@ healthcheck(callback) {
      */
      this.connector.get((data, error) => {
         let changeTickets = [];
+        let changeTicket;
         if(error){
             callback(data,error);
         }
@@ -199,7 +200,7 @@ healthcheck(callback) {
                 let bodyObj = JSON.parse(data.body);
                 
                     bodyObj.result.forEach((item) => {
-                        let changeTicket = {
+                        changeTicket = {
                             change_ticket_number: item.number,
                             active: item.active,
                             priority: item.priority,
@@ -234,15 +235,15 @@ healthcheck(callback) {
      * post() takes a callback function.
      */
      this.connector.post((data, error) => {
-
+    let changeTicket;
          if(error){
             callback(data,error);
         }
         else {
             if(data.body){
                 let bodyObj = JSON.parse(data.body);
-                ticket = bodyObj.result
-                    let changeTicket = {
+                let ticket = bodyObj.result
+                    changeTicket = {
                         change_ticket_number: ticket.number,
                         active: ticket.active,
                         priority: ticket.priority,
